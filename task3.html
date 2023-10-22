@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Прогноз погоды</title>
+</head>
+<body>
+    <h2>Прогноз погоды</h2>
+    <input type="text" id="city" placeholder="Введите город">
+    <button onclick="getWeather()">Получить погоду</button>
+    <p id="weather-info"></p>
+
+    <script>
+        async function getWeather() {
+            try {
+                const city = document.getElementById("city").value;
+                const apiKey = '0ad3df4030a233c298c8cf93b05395a7';
+                const url = `http://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}&lang=ru`;
+
+                const response = await fetch(url);
+                const data = await response.json();
+
+                const weatherInfo = document.getElementById("weather-info");
+                weatherInfo.innerHTML = `В городе ${data.name} сейчас ${data.weather[0].description}`;
+            } catch (error) {
+                console.error('Ошибка:', error);
+            }
+        }
+    </script>
+</body>
+</html>
