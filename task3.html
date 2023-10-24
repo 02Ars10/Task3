@@ -2,12 +2,71 @@
 <html>
 <head>
     <title>Прогноз погоды</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <style>
+        body {
+            background-color: lightskyblue;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            font-family: Arial, sans-serif;
+        }
+        h2 {
+            margin-bottom: 20px;
+            color: #333;
+            text-transform: uppercase;
+        }
+        input[type="text"] {
+    padding: 10px;
+    margin-bottom: 10px;
+    width: 425px; 
+    height: 19px;
+    text-align: center;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    transition: border-color 0.3s;
+}
+
+
+        input[type="text"]:focus {
+            border-color: #4CAF50;
+        }
+        button {
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+            text-transform: uppercase;
+            font-weight: bold;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        #weather-info {
+            margin-top: 20px;
+            display: flex;
+            align-items: center;
+        }
+        #weather-info img {
+            width: 50px;
+            height: 50px;
+            margin-right: 10px;
+        }
+        #weather-info p {
+            font-size: 24px;
+        }
+    </style>
 </head>
 <body>
-    <h2>Прогноз погоды</h2>
+    <h1>Прогноз погоды</h1>
     <input type="text" id="city" placeholder="Введите город">
-    <button onclick="getWeather()">Получить погоду</button>
-    <p id="weather-info"></p>
+    <button onclick="getWeather() " style="height: 49px;
+    width: 289px">Узнать погоду</button>
+    <div id="weather-info"></div>
 
     <script>
         async function getWeather() {
@@ -20,11 +79,18 @@
                 const data = await response.json();
 
                 const weatherInfo = document.getElementById("weather-info");
-                weatherInfo.innerHTML = `В городе ${data.name} сейчас ${data.weather[0].description}`;
+               
+                const temperature = Math.round(data.main.temp - 273.15);
+                const description = data.weather[0].description;
+                const weatherIcon = `<img src="http://openweathermap.org/img/wn/${data.weather[0].icon}.png" alt="Weather Icon">`;
+
+                weatherInfo.innerHTML = `<p>В городе ${data.name} сейчас ${temperature} °C, ${description}</p>${weatherIcon}`;
             } catch (error) {
-                console.error('Ошибка:', error);
-            }
-        }
+        const weatherInfo = document.getElementById("weather-info");
+        weatherInfo.innerHTML = `<p>Город не найден</p>`;
+        console.error('Ошибка:', error);
+    }
+}
     </script>
 </body>
 </html>
